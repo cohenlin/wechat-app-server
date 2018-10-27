@@ -50,7 +50,7 @@ public class TestController {
             }
             response.put("code", String.valueOf(errcode));
         }
-        LOG.debug("[method]:[codeToSession] response = {}", response.toJSONString());
+        LOG.info("[method]:[codeToSession] response = {}", response.toJSONString());
         return response.toJSONString();
     }
 }
