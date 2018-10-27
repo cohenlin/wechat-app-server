@@ -34,6 +34,9 @@ public class TestController {
                     break;
                 case 0:
                     response.put("msg", "請求成功");
+                    response.put("openid", data.getString("openid"));
+                    response.put("session_key", data.getString("session_key"));
+                    response.put("unionid", data.getString("unionid"));
                     break;
                 case 40029:
                     response.put("msg", "code无效");
