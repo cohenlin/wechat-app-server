@@ -26,7 +26,7 @@ public class TestController {
                 .concat("&secret").concat(applicationParameter.getWechatAppSecret())
                 .concat("&js_code").concat(code)
                 .concat("&grant_type=authorization_code");
-        LOG.debug("[method]:[codeToSession] targetUrl = {}", targetUrl);
+        LOG.info("[method]:[codeToSession] targetUrl = {}", targetUrl);
         JSONObject response = httpUtil.getRequest(targetUrl);
         if(response != null && "200".equalsIgnoreCase(response.getString("code")) && response.containsKey("data")){
             JSONObject data = response.getJSONObject("data");
