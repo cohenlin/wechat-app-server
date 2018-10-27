@@ -3,6 +3,8 @@ package com.cohen.wechat.app.server.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.cohen.wechat.app.server.common.HttpUtil;
 import com.cohen.wechat.app.server.config.ApplicationParameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/api")
 public class TestController {
-
-    private final String CODE_TO_SESSION_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
+    private static final Logger LOG = LoggerFactory.getLogger(TestController.class);
+    private final String CODE_TO_SESSION_URL = "https://api.weixin.qq.com/sns/jscode2session";
     @Autowired
     private HttpUtil httpUtil;
     @Autowired
@@ -24,6 +26,7 @@ public class TestController {
                 .concat("&secret").concat(applicationParameter.getWechatAppSecret())
                 .concat("&js_code").concat(code)
                 .concat("&grant_type=authorization_code");
+        LOG.debug("[method]:[codeToSession] targetUrl = {}", targetUrl);
         JSONObject response = httpUtil.getRequest(targetUrl);
         if(response != null && "200".equalsIgnoreCase(response.getString("code")) && response.containsKey("data")){
             JSONObject data = response.getJSONObject("data");
@@ -47,6 +50,7 @@ public class TestController {
             }
             response.put("code", String.valueOf(errcode));
         }
+        LOG.debug("[method]:[codeToSession] response = {}", response.toJSONString());
         return response.toJSONString();
     }
 }
