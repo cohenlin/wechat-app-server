@@ -22,9 +22,9 @@ public class TestController {
     @PostMapping("/codeToSession")
     public String ping(@RequestParam("code")String code){
         String targetUrl = CODE_TO_SESSION_URL.concat("?")
-                .concat("appid").concat(applicationParameter.getWechatAppId())
-                .concat("&secret").concat(applicationParameter.getWechatAppSecret())
-                .concat("&js_code").concat(code)
+                .concat("appid=").concat(applicationParameter.getWechatAppId())
+                .concat("&secret=").concat(applicationParameter.getWechatAppSecret())
+                .concat("&js_code=").concat(code)
                 .concat("&grant_type=authorization_code");
         LOG.info("[method]:[codeToSession] targetUrl = {}", targetUrl);
         JSONObject response = httpUtil.getRequest(targetUrl);
