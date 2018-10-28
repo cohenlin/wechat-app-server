@@ -28,6 +28,7 @@ public class TestController {
                 .concat("&grant_type=authorization_code");
         LOG.info("[method]:[codeToSession] targetUrl = {}", targetUrl);
         JSONObject response = httpUtil.getRequest(targetUrl);
+        LOG.info("[method]:[codeToSession] wechat-response = {}", response.toJSONString());
         if(response != null && "200".equalsIgnoreCase(response.getString("code")) && response.containsKey("data")){
             JSONObject data = response.getJSONObject("data");
             Integer errcode = data.getInteger("errcode");
