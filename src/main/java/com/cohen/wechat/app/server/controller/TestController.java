@@ -31,7 +31,7 @@ public class TestController {
         LOG.info("[method]:[codeToSession] wechat-response = {}", response.toJSONString());
         if(response != null && "200".equalsIgnoreCase(response.getString("code")) && response.containsKey("data")){
             JSONObject data = response.getJSONObject("data");
-            Integer errcode = data.getInteger("errcode");
+            Integer errcode = data.containsKey("errcode") ? data.getInteger("errcode") : 0;
             switch (errcode){
                 case -1:
                     response.put("msg", "系统繁忙，此时请开发者稍候再试");
@@ -51,7 +51,6 @@ public class TestController {
             }
             response.put("code", String.valueOf(errcode));
         }
-        LOG.info("[method]:[codeToSession] response = {}", response.toJSONString());
         return response.toJSONString();
     }
 }
