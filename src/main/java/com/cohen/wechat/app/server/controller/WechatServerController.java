@@ -3,16 +3,21 @@ package com.cohen.wechat.app.server.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.cohen.wechat.app.server.common.HttpUtil;
 import com.cohen.wechat.app.server.config.ApplicationParameter;
+import com.cohen.wechat.app.server.dao.BasicDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api")
-public class TestController {
-    private static final Logger LOG = LoggerFactory.getLogger(TestController.class);
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api")
+public class WechatServerController {
+    private static final Logger LOG = LoggerFactory.getLogger(WechatServerController.class);
     private final String CODE_TO_SESSION_URL = "https://api.weixin.qq.com/sns/jscode2session";
     @Autowired
     private HttpUtil httpUtil;
@@ -20,7 +25,7 @@ public class TestController {
     private ApplicationParameter applicationParameter;
 
     @PostMapping("/codeToSession")
-    public String ping(@RequestParam("code")String code){
+    public String ping(@RequestParam("code") String code) {
         String targetUrl = CODE_TO_SESSION_URL.concat("?")
                 .concat("appid=").concat(applicationParameter.getWechatAppId())
                 .concat("&secret=").concat(applicationParameter.getWechatAppSecret())
@@ -28,11 +33,11 @@ public class TestController {
                 .concat("&grant_type=authorization_code");
         LOG.info("[method]:[codeToSession] targetUrl = {}", targetUrl);
         JSONObject response = httpUtil.getRequest(targetUrl);
-        LOG.info("[method]:[codeToSession] wechat-response = {}", response.toJSONString());
-        if(response != null && "200".equalsIgnoreCase(response.getString("code")) && response.containsKey("data")){
+        LOG.debug("[method]:[codeToSession] wechat-response = {}", response.toJSONString());
+        if (response != null && "200".equalsIgnoreCase(response.getString("code")) && response.containsKey("data")) {
             JSONObject data = response.getJSONObject("data");
             Integer errcode = data.containsKey("errcode") ? data.getInteger("errcode") : 0;
-            switch (errcode){
+            switch (errcode) {
                 case -1:
                     response.put("msg", "系统繁忙，此时请开发者稍候再试");
                     break;
@@ -52,5 +57,13 @@ public class TestController {
             response.put("code", String.valueOf(errcode));
         }
         return response.toJSONString();
+    }
+    @Autowired
+    private BasicDao basicDao;
+
+    @PostMapping("insert")
+    public String insert(){
+        basicDao.insert(UUID.randomUUID().toString().replace("-", ""), UUID.randomUUID().toString().replace("-", ""));
+        return "success";
     }
 }
