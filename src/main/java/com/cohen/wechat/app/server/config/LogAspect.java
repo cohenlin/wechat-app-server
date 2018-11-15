@@ -26,7 +26,7 @@ public class LogAspect {
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) {
         // 记录下请求内容
-        logger.info("[REQUEST] : {}", JSONObject.toJSONString(joinPoint.getArgs()));
+        logger.info("[REQUEST] - Method: {}, Args: {}", joinPoint.getSignature().getName(), JSONObject.toJSONString(joinPoint.getArgs()));
     }
 
     @AfterReturning(returning = "res", pointcut = "webLog()")

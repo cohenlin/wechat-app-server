@@ -21,6 +21,7 @@ public class Task implements Serializable {
     private String deleteFlag;
 
     public Task(String id, String start, String end, String isNotice, String openid, String remark) {
+        this.id = id;
         this.start = start;
         this.end = end;
         this.isNotice = isNotice;
