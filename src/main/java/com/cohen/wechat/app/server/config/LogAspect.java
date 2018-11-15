@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
-    @Pointcut("execution(public * com.cohen.wechat.app.server.controller.*(..))")
+    @Pointcut("execution(public * com.cohen.wechat.app.server.controller.*.*(..))")
     public void webLog() {
     }
 
