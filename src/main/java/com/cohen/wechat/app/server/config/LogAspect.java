@@ -2,6 +2,7 @@ package com.cohen.wechat.app.server.config;
 
 import com.alibaba.fastjson.JSONObject;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -9,6 +10,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
 
 /**
  * @author: songyibo
@@ -26,12 +31,14 @@ public class LogAspect {
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) {
         // 记录下请求内容
-        logger.info("[REQUEST] - Method: {}, Args: {}", joinPoint.getSignature().getName(), JSONObject.toJSONString(joinPoint.getArgs()));
+        Signature signature = joinPoint.getSignature();
+        logger.info("[REQUEST] - Method: [{}.{}], Args: {}", signature.getDeclaringTypeName(), signature.getName(), JSONObject.toJSONString(joinPoint.getArgs()));
     }
 
-    @AfterReturning(returning = "res", pointcut = "webLog()")
-    public void doAfterReturning(Object res) throws Throwable {
+    @AfterReturning(returning = "result", pointcut = "webLog()")
+    public void doAfterReturning(JoinPoint joinPoint, Object result) {
         // 处理完请求，返回内容
-        logger.info("[RESPONSE] : {}", res);
+        Signature signature = joinPoint.getSignature();
+        logger.info("[RESPONSE] - Method: [{}.{}], Response: [{}]", signature.getDeclaringTypeName(), signature.getName(), result);
     }
 }
