@@ -12,15 +12,15 @@ public class Task implements Serializable {
     private static final long serialVersionUID = -4254224180130337914L;
 
     private String id;
-    private String start;
-    private String end;
+    private Date start;
+    private Date end;
     private String isNotice;
     private String openid;
     private String remark;
     private Date updateTime;
     private String deleteFlag;
 
-    public Task(String id, String start, String end, String isNotice, String openid, String remark) {
+    public Task(String id, Date start, Date end, String isNotice, String openid, String remark) {
         this.id = id;
         this.start = start;
         this.end = end;
@@ -41,19 +41,19 @@ public class Task implements Serializable {
         this.id = id;
     }
 
-    public String getStart() {
+    public Date getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public Date getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(Date end) {
         this.end = end;
     }
 

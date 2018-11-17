@@ -10,4 +10,18 @@
     <insert id="create" parameterType="com.cohen.wechat.app.server.entity.Task">
         insert into `task`(<include refid="column" /> ) values(#{task.id},#{task.start},#{task.end},#{task.isNotice},#{task.openid},#{task.remark},#{task.updateTime},#{task.deleteFlag})
     </insert>
+    <select id="getLastEndTime" resultType="date">
+        SELECT
+        CASE WHEN
+            t.end_time >= CURRENT_TIME
+        THEN
+            t.end_time ELSE CURRENT_TIME
+        END
+            AS last_end_time
+        FROM
+            `task` t
+        ORDER BY
+            t.end_time DESC
+        LIMIT 1
+    </select>
 </mapper>

@@ -1,6 +1,6 @@
 package com.cohen.wechat.app.server.controller;
 
-import com.cohen.wechat.app.server.service.TimerService;
+import com.cohen.wechat.app.server.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+
 /**
  * @author linjincheng
  * @date 2018/11/15 17:11
  */
 @RestController
 @RequestMapping("/task")
-public class TimerController {
-    private static final Logger LOG = LoggerFactory.getLogger(TimerController.class);
+public class TaskController {
+    private static final Logger LOG = LoggerFactory.getLogger(TaskController.class);
     @Autowired
-    private TimerService timerService;
+    private TaskService taskService;
 
     @PostMapping("/create")
     public String create(
@@ -28,6 +30,11 @@ public class TimerController {
             @RequestParam("openid") String openid,
             @RequestParam("remark") String remark
     ) {
-        return timerService.create(start, end, isNotice, openid, remark);
+            return taskService.create(start, end, isNotice, openid, remark);
+    }
+
+    @PostMapping("/getLastEndTime")
+    public String getLastEndTime () {
+        return taskService.getLastEndTime();
     }
 }
