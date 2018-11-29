@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author linjincheng
  * @date 2018/11/15 18:26
@@ -13,4 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface TaskDao {
     void create(@Param("task") Task task);
+
+    List<Task> select();
 }

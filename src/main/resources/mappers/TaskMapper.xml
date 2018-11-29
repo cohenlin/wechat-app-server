@@ -10,4 +10,7 @@
     <insert id="create" parameterType="com.cohen.wechat.app.server.entity.Task">
         insert into `task`(<include refid="column" /> ) values(#{task.id},#{task.start},#{task.end},#{task.isNotice},#{task.openid},#{task.remark},#{task.updateTime},#{task.deleteFlag})
     </insert>
+    <select id="select" resultType="com.cohen.wechat.app.server.entity.Task">
+        select * from `task`
+    </select>
 </mapper>

@@ -12,8 +12,8 @@ public class Task implements Serializable {
     private static final long serialVersionUID = -4254224180130337914L;
 
     private String id;
-    private String start;
-    private String end;
+    private String startTime;
+    private String endTime;
     private String isNotice;
     private String openid;
     private String remark;
@@ -22,8 +22,8 @@ public class Task implements Serializable {
 
     public Task(String id, String start, String end, String isNotice, String openid, String remark) {
         this.id = id;
-        this.start = start;
-        this.end = end;
+        this.startTime = start;
+        this.endTime = end;
         this.isNotice = isNotice;
         this.openid = openid;
         this.remark = remark;
@@ -41,20 +41,20 @@ public class Task implements Serializable {
         this.id = id;
     }
 
-    public String getStart() {
-        return start;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public String getEnd() {
-        return end;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEnd(String end) {
-        this.end = end;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getIsNotice() {
