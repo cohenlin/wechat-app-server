@@ -1,14 +1,9 @@
 package com.cohen.wechat.app.server.common.filter;
 
-import com.cohen.wechat.app.server.config.LogAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.*;
-import javax.servlet.FilterChain;
-import java.io.IOException;
 
 /**
  * @Author: linjincheng
