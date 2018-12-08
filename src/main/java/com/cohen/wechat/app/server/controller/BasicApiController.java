@@ -10,7 +10,7 @@ public class BasicApiController {
 
     @GetMapping("/hello")
     public String hello() {
-        System.out.print("I'm wechat-app-server");
+        System.out.println("I'm wechat-app-server");
         return "I'm wechat-app-server";
     }
 }
