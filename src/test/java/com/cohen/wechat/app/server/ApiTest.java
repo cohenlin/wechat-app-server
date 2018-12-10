@@ -20,7 +20,6 @@ public class ApiTest {
     @Test
     public void testPageHelper() {
         Page<Task> tasks = PageHelper.startPage(1, 1, true);
-        taskDao.select();
         System.out.println(JSON.toJSONString(tasks.getResult()));
     }
 }

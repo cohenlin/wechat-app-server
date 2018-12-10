@@ -1,10 +1,12 @@
 package com.cohen.wechat.app.server.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.cohen.wechat.app.server.common.ServerResponse;
 import com.cohen.wechat.app.server.dao.TaskDao;
 import com.cohen.wechat.app.server.entity.Task;
 import com.cohen.wechat.app.server.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -20,14 +22,28 @@ import java.util.UUID;
 public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskDao taskDao;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     @Override
     public String create(String start, String end, String isNotice, String openid, String remark) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            taskDao.create(new Task(UUID.randomUUID().toString().replaceAll("-", ""), sdf.parse(start), sdf.parse(end), isNotice, openid, remark));
+            String id = UUID.randomUUID().toString().replaceAll("-", "");
+            Task task = new Task(id, sdf.parse(start), sdf.parse(end), isNotice, openid, remark);
+            redisTemplate.opsForValue().set(id, JSON.toJSONString(task));
+            taskDao.create(task);
+            this.stay();
             return new ServerResponse<String>("200", "SUCCESS", null).toString();
         } catch (ParseException e) {
             return new ServerResponse<String>("500", "ERROR", e.getMessage()).toString();
+        }
+    }
+
+    private void stay(){
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
