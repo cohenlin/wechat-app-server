@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author linjincheng
@@ -35,6 +39,14 @@ public class TaskController {
 
     @PostMapping("/getLastEndTime")
     public String getLastEndTime () {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar ins = Calendar.getInstance();
+        Date time1 = ins.getTime();
+        ins.set(Calendar.DAY_OF_MONTH, ins.get(Calendar.DAY_OF_MONTH) + 1);
+        Date time2 = ins.getTime();
+        String start = sdf.format(time1);
+        String end = sdf.format(time2);
+        String s = UUID.randomUUID().toString().replaceAll("-", "");
         return taskService.getLastEndTime();
     }
 }
